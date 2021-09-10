@@ -68,3 +68,17 @@ Vagrantfile
 *.lo
 *.a
 *.la
+
+## More files that don't need to go on NPM
+
+# Ignore benchmarks
+/benchmark/
+
+# The samples and test folder shouldn't go on npm
+examples/*
+test/*
+.github/*
+
+.codecov.yml
+.travis.yml
+*.tgz
