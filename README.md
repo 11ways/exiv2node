@@ -58,7 +58,7 @@ a package manager you might need to install an additional "-dev" packages.
 
 ### Debian
 
-    apt-get install zlib1g-dev
+    apt-get install exiv2 libexiv2-dev
 
 ### OS X
 
