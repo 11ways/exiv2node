@@ -20,10 +20,10 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install exiv2 on Linux
         if: matrix.os == 'ubuntu-20.04'
-        run: sudo apt install zlib1g-dev
+        run: sudo apt install exiv2 libexiv2-dev
       - name: Install exiv2 on MacOS
         if: matrix.os == 'macos-latest'
-        run: sudo port install pkgconfig exiv2
+        run: sudo brew install pkg-config exiv2
       - name: Install NPM Dependencies
         run: npm install
       - name: Run Unit Tests
