@@ -3,3 +3,16 @@ build/
 node_modules/
 test/copy.jpg
 *~
+npm-debug.log
+*.swp
+.vagrant
+Vagrantfile
+
+*.o
+*.lo
+*.a
+*.la
+.vs
+.vscode
+yarn-error.log
+yarn.lock

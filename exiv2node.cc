@@ -2,7 +2,13 @@
 #include <node.h>
 #include <node_buffer.h>
 #include <nan.h>
-#include <unistd.h>
+#ifdef _MSC_VER
+# include <direct.h>
+# include <process.h>
+#else
+# include <unistd.h>
+# include <stdint.h>
+#endif
 #include <string>
 #include <map>
 #include <exception>
@@ -100,7 +106,8 @@ class GetTagsWorker : public Exiv2Worker {
       Local<Object> hash = Nan::New<Object>();
       // Copy the tags out.
       for (tag_map_t::iterator i = tags.begin(); i != tags.end(); ++i) {
-        hash->Set(
+        Nan::Set(
+          hash,
           Nan::New<String>(i->first.c_str()).ToLocalChecked(),
           Nan::New<String>(i->second.c_str()).ToLocalChecked()
         );
@@ -109,7 +116,7 @@ class GetTagsWorker : public Exiv2Worker {
     }
 
     // Pass the argv array object to our callback function.
-    callback->Call(2, argv);
+    Nan::Call(callback->GetFunction(), Nan::GetCurrentContext()->Global(), 2, argv);
   };
 };
 
@@ -191,7 +198,7 @@ class SetTagsWorker : public Exiv2Worker {
     }
 
     // Pass the argv array object to our callback function.
-    callback->Call(1, argv);
+    Nan::Call(callback->GetFunction(), Nan::GetCurrentContext()->Global(), 1, argv);
   };
 };
 
@@ -217,10 +224,10 @@ NAN_METHOD(SetImageTags) {
   Local<Object> tags = Local<Object>::Cast(info[1]);
   Local<Array> keys = Nan::GetOwnPropertyNames(tags).ToLocalChecked();
   for (unsigned i = 0; i < keys->Length(); i++) {
-    Local<Value> key = keys->Get(i);
+    Local<Value> key = Nan::Get(keys, i).ToLocalChecked();
     worker->tags.insert(std::pair<std::string, std::string> (
       *Nan::Utf8String(key),
-      *Nan::Utf8String(tags->Get(key))
+      *Nan::Utf8String(Nan::Get(tags, key).ToLocalChecked())
     ));
   }
 
@@ -294,7 +301,7 @@ class DeleteTagsWorker : public Exiv2Worker {
     }
 
     // Pass the argv array object to our callback function.
-    callback->Call(1, argv);
+    Nan::Call(callback->GetFunction(), Nan::GetCurrentContext()->Global(), 1, argv);
   };
 };
 
@@ -319,7 +326,7 @@ NAN_METHOD(DeleteImageTags) {
 
   Local<Array> keys = Local<Array>::Cast(info[1]);
   for (unsigned i = 0; i < keys->Length(); i++) {
-    Local<v8::Value> key = keys->Get(i);
+    Local<v8::Value> key = Nan::Get(keys, i).ToLocalChecked();
     worker->tags.push_back(*Nan::Utf8String(key));
   }
 
@@ -373,18 +380,18 @@ class GetPreviewsWorker : public Exiv2Worker {
       Local<Array> array = Nan::New<Array>(previews.size());
       for (size_t i = 0; i < previews.size(); ++i) {
         Local<Object> preview = Nan::New<Object>();
-        preview->Set(Nan::New<String>("mimeType").ToLocalChecked(), Nan::New<String>(previews[i].mimeType.c_str()).ToLocalChecked());
-        preview->Set(Nan::New<String>("height").ToLocalChecked(), Nan::New<Number>(previews[i].height));
-        preview->Set(Nan::New<String>("width").ToLocalChecked(), Nan::New<Number>(previews[i].width));
-        preview->Set(Nan::New<String>("data").ToLocalChecked(), Nan::CopyBuffer(previews[i].data, previews[i].size).ToLocalChecked());
+        Nan::Set(preview, Nan::New<String>("mimeType").ToLocalChecked(), Nan::New<String>(previews[i].mimeType.c_str()).ToLocalChecked());
+        Nan::Set(preview, Nan::New<String>("height").ToLocalChecked(), Nan::New<Number>(previews[i].height));
+        Nan::Set(preview, Nan::New<String>("width").ToLocalChecked(), Nan::New<Number>(previews[i].width));
+        Nan::Set(preview, Nan::New<String>("data").ToLocalChecked(), Nan::CopyBuffer(previews[i].data, previews[i].size).ToLocalChecked());
 
-        array->Set(i, preview);
+        Nan::Set(array, i, preview);
       }
       argv[1] = array;
     }
 
     // Pass the argv array object to our callback function.
-    callback->Call(2, argv);
+    Nan::Call(callback->GetFunction(), Nan::GetCurrentContext()->Global(), 2, argv);
   };
 
  protected:
@@ -438,11 +445,26 @@ NAN_METHOD(GetImagePreviews) {
 }
 
 // - - -
-
-NAN_MODULE_INIT(InitAll) {
-  target->Set(Nan::New<String>("getImageTags").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(GetImageTags)).ToLocalChecked());
-  target->Set(Nan::New<String>("setImageTags").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(SetImageTags)).ToLocalChecked());
-  target->Set(Nan::New<String>("deleteImageTags").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(DeleteImageTags)).ToLocalChecked());
-  target->Set(Nan::New<String>("getImagePreviews").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(GetImagePreviews)).ToLocalChecked());
+void InitAll(Local<Object> target) {
+  Nan::Set(
+    target,
+    Nan::New<String>("getImageTags").ToLocalChecked(),
+    Nan::GetFunction(Nan::New<FunctionTemplate>(GetImageTags)).ToLocalChecked()
+  );
+  Nan::Set(
+    target,
+    Nan::New<String>("setImageTags").ToLocalChecked(),
+    Nan::GetFunction(Nan::New<FunctionTemplate>(SetImageTags)).ToLocalChecked()
+  );
+  Nan::Set(
+    target,
+    Nan::New<String>("deleteImageTags").ToLocalChecked(),
+    Nan::GetFunction(Nan::New<FunctionTemplate>(DeleteImageTags)).ToLocalChecked()
+  );
+  Nan::Set(
+    target,
+    Nan::New<String>("getImagePreviews").ToLocalChecked(),
+    Nan::GetFunction(Nan::New<FunctionTemplate>(GetImagePreviews)).ToLocalChecked()
+  );
 }
 NODE_MODULE(exiv2, InitAll)

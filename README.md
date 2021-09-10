@@ -10,7 +10,7 @@ a package manager you might need to install an additional "-dev" packages.
 
 ### Debian
 
-    apt-get install libexiv2 libexiv2-dev
+    apt-get install zlib1g-dev
 
 ### OS X
 
@@ -27,6 +27,19 @@ You'll also need to install pkg-config to help locate the library and headers.
 ### FreeBSD
 
     pkg install pkgconf exiv2
+
+### Windows
+Install pkg-config using [Chocolatey](https://chocolatey.org/):
+
+    choco install pkgconfiglite
+    
+Download latest `msvc64` exiv2 build from the [Exiv2 download page](http://www.exiv2.org/download.html) and extract to a folder of your choice.
+
+Add a system variable named `PKG_CONFIG_PATH` and set it's value to `EXIV2ROOTDIR\lib\pkgconfig` replacing `EXIV2ROOTDIR` with the path where you extracted exiv2 from the step before (e.g. `D:\src\exiv2msvs\lib\pkgconfig`).
+
+You'll also need [windows-build-tools](https://www.npmjs.com/package/windows-build-tools) to compile this package.
+
+For Electron apps, you'll want to copy `exiv2.dll` to the root directory of your Electron Windows build. You can automated this using the [extraFiles option](https://www.electron.build/configuration/contents#extrafiles). 
 
 ### Other systems
 

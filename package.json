@@ -4,27 +4,30 @@
     "email": "dberesford@gmail.com",
     "url": "http://www.damianberesford.com/"
   },
-  "name": "exiv2",
+  "name": "@11ways/exiv2",
   "description": "A native c++ extension for node.js that provides support for reading & writing image metadata via Exiv2.",
-  "version": "0.6.3",
-  "homepage": "https://github.com/dberesford/exiv2node",
+  "version": "0.6.4",
+  "homepage": "https://github.com/11ways/exiv2node",
   "repository": {
     "type": "git",
-    "url": "git://github.com/dberesford/exiv2node.git"
+    "url": "git://github.com/11ways/exiv2node.git"
   },
   "dependencies": {
-    "nan": "^2.13.0"
+    "nan": "~2.14.0"
   },
   "devDependencies": {
-    "should": "*",
-    "mocha": "*"
+    "mocha": "*",
+    "should": "*"
   },
   "optionalDependencies": {},
+  "engines": {
+    "node": ">=8.0.0"
+  },
   "main": "exiv2",
   "scripts": {
-    "preuninstall": "rm -rf build/*",
     "test": "mocha",
-    "install": "node-gyp rebuild"
+    "clean": "node-gyp clean",
+    "build": "node-gyp configure build"
   },
   "gypfile": true,
   "contributors": [
