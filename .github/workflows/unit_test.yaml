@@ -23,7 +23,7 @@ jobs:
         run: sudo apt install exiv2 libexiv2-dev
       - name: Install exiv2 on MacOS
         if: matrix.os == 'macos-latest'
-        run: sudo brew install pkg-config exiv2
+        run: brew install pkg-config exiv2
       - name: Install NPM Dependencies
         run: npm install
       - name: Run Unit Tests
