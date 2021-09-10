@@ -132,7 +132,9 @@ NAN_METHOD(GetImageTags) {
     std::string filename = std::string(*Nan::Utf8String(info[0]));
     Nan::AsyncQueueWorker(new GetTagsWorker(callback, filename));
   } else {
-    Local<Object> buf = info[0]->ToObject(v8::Isolate::GetCurrent());
+    Local<Object> buf;
+    info[0]->ToObject(Nan::GetCurrentContext()).ToLocal(&buf);
+
     Nan::AsyncQueueWorker(new GetTagsWorker(callback, Buffer::Data(buf), Buffer::Length(buf)));
   }
   return;
@@ -217,7 +219,9 @@ NAN_METHOD(SetImageTags) {
     std::string filename = std::string(*Nan::Utf8String(info[0]));
     worker = new SetTagsWorker(callback, filename);
   } else {
-    Local<Object> buf = info[0]->ToObject(v8::Isolate::GetCurrent());
+    Local<Object> buf;
+    info[0]->ToObject(Nan::GetCurrentContext()).ToLocal(&buf);
+
     worker = new SetTagsWorker(callback, Buffer::Data(buf), Buffer::Length(buf));
   }
 
@@ -320,7 +324,9 @@ NAN_METHOD(DeleteImageTags) {
     std::string filename = std::string(*Nan::Utf8String(info[0]));
     worker = new DeleteTagsWorker(callback, filename);
   } else {
-    Local<Object> buf = info[0]->ToObject(v8::Isolate::GetCurrent());
+    Local<Object> buf;
+    info[0]->ToObject(Nan::GetCurrentContext()).ToLocal(&buf);
+
     worker = new DeleteTagsWorker(callback, Buffer::Data(buf), Buffer::Length(buf));
   }
 
@@ -438,7 +444,9 @@ NAN_METHOD(GetImagePreviews) {
     std::string filename = std::string(*Nan::Utf8String(info[0]));
     Nan::AsyncQueueWorker(new GetPreviewsWorker(callback, filename));
   } else {
-    Local<Object> buf = info[0]->ToObject(v8::Isolate::GetCurrent());
+    Local<Object> buf;
+    info[0]->ToObject(Nan::GetCurrentContext()).ToLocal(&buf);
+
     Nan::AsyncQueueWorker(new GetPreviewsWorker(callback, Buffer::Data(buf), Buffer::Length(buf)));
   }
   return;
