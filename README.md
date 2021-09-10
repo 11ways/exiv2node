@@ -1,7 +1,55 @@
+<h1 align="center">
+  <b>@11ways/exiv2node</b>
+</h1>
+<div align="center">
+  <!-- CI - Github Actions -->
+  <a href="https://github.com/11ways/exiv2node/actions/workflows/unit_test.yaml">
+    <img src="https://github.com/11ways/exiv2node/actions/workflows/unit_test.yaml/badge.svg" alt="Node.js CI (Linux, MacOS, Windows)" />
+  </a>
+
+  <!-- Coverage - Codecov -->
+  <a href="https://codecov.io/gh/11ways/exiv2node">
+    <img src="https://img.shields.io/codecov/c/github/11ways/exiv2node/master.svg" alt="Codecov Coverage report" />
+  </a>
+
+  <!-- DM - Snyk -->
+  <a href="https://snyk.io/test/github/11ways/exiv2node?targetFile=package.json">
+    <img src="https://snyk.io/test/github/11ways/exiv2node/badge.svg?targetFile=package.json" alt="Known Vulnerabilities" />
+  </a>
+
+  <!-- DM - David -->
+  <a href="https://david-dm.org/11ways/exiv2node">
+    <img src="https://david-dm.org/11ways/exiv2node/status.svg" alt="Dependency Status" />
+  </a>
+</div>
+
+<div align="center">
+  <!-- Version - npm -->
+  <a href="https://www.npmjs.com/package/@11ways/exiv2node">
+    <img src="https://img.shields.io/npm/v/exiv2node.svg" alt="Latest version on npm" />
+  </a>
+
+  <!-- License - MIT -->
+  <a href="https://github.com/11ways/exiv2node#license">
+    <img src="https://img.shields.io/github/license/11ways/exiv2node.svg" alt="Project license" />
+  </a>
+</div>
+<br>
+<div align="center">
+  👷🏼 Eleven Ways' exiv2node library
+</div>
+<div align="center">
+  <sub>
+    Coded with ❤️ by <a href="#authors">Eleven Ways</a>.
+  </sub>
+</div>
+
 # Exiv2
 
 Exiv2 is a native C++ extension for [node.js](https://nodejs.org) that provides
 support for reading and writing image metadata via the [Exiv2 library](http://www.exiv2.org).
+
+It was created by Damian Beresford
 
 ## Dependencies
 
@@ -121,5 +169,13 @@ the tests:
 
 Take a look at the `examples/` and `test/` directories for more.
 
-email: dberesford at gmail
-twitter: @dberesford
+## Authors
+- **Damian Beresford** - Original creator
+- **Jelle De Loecker** -  *Follow* me on *Github* ([:octocat:@skerit](https://github.com/skerit)) and on  *Twitter* ([🐦@skeriten](http://twitter.com/intent/user?screen_name=skeriten))
+
+See also the list of [contributors](https://github.com/11ways/exiv2node/contributors) who participated in this project.
+
+@11ways/exiv2node is developed at [Eleven Ways](https://www.elevenways.be/), a team of [IAAP Certified Accessibility Specialists](https://www.accessibilityassociation.org/).
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/11ways/exiv2node/LICENSE) file for details.
