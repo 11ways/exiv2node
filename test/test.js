@@ -1,9 +1,13 @@
 
-var exiv = require('../exiv2')
+// Make sure the date tests always use the UTC timezone
+process.env.TZ = 'UTC';
+
+const exiv = require('../exiv2')
   , fs = require('fs')
   , util = require('util')
   , should = require('should')
   , dir = __dirname + '/images';
+
 
 describe('exiv2', function(){
   describe('.getImageTags()', function(){
