@@ -37,7 +37,7 @@ class Exiv2Worker : public Nan::AsyncWorker {
   const long bufLen = -1;
   const std::string fileName = "";
   std::string exifException;
-  Exiv2::Image::AutoPtr image() {
+  Exiv2::Image::UniquePtr image() {
     return this->isBuf
       ? Exiv2::ImageFactory::open(this->buf, this->bufLen)
       : Exiv2::ImageFactory::open(this->fileName);
@@ -61,7 +61,7 @@ class GetTagsWorker : public Exiv2Worker {
   // structures here.
   void Execute () {
     try {
-      Exiv2::Image::AutoPtr image = this->image();
+      Exiv2::Image::UniquePtr image = this->image();
       assert(image.get() != 0);
       image->readMetadata();
 
@@ -157,7 +157,7 @@ class SetTagsWorker : public Exiv2Worker {
   // structures here.
   void Execute () {
     try {
-      Exiv2::Image::AutoPtr image = this->image();
+      Exiv2::Image::UniquePtr image = this->image();
       assert(image.get() != 0);
 
       image->readMetadata();
@@ -256,7 +256,7 @@ class DeleteTagsWorker : public Exiv2Worker {
   // structures here.
   void Execute () {
     try {
-      Exiv2::Image::AutoPtr image = this->image();
+      Exiv2::Image::UniquePtr image = this->image();
       assert(image.get() != 0);
 
       image->readMetadata();
@@ -354,7 +354,7 @@ class GetPreviewsWorker : public Exiv2Worker {
   // structures here.
   void Execute () {
     try {
-      Exiv2::Image::AutoPtr image = this->image();
+      Exiv2::Image::UniquePtr image = this->image();
       assert(image.get() != 0);
       image->readMetadata();
 
