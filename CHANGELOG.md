@@ -1,3 +1,7 @@
+## 0.7.2 (2023-10-18)
+
+* Make backwards compatible with versions lower than v0.28.0
+
 ## 0.7.1 (2023-10-18)
 
 * Upgrade `nan` dependency to v2.18.0

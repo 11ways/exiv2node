@@ -16,6 +16,14 @@
 #include <exiv2/exif.hpp>
 #include <exiv2/preview.hpp>
 
+#if EXIV2_MAJOR_VERSION > 0 || (EXIV2_MAJOR_VERSION == 0 && EXIV2_MINOR_VERSION >= 28)
+  #define USE_EXIV2_UNIQUE_PTR 1
+  #pragma message ("Using Exiv2::Image::UniquePtr")
+#else
+  #define USE_EXIV2_UNIQUE_PTR 0
+  #pragma message ("Using Exiv2::Image::AutoPtr")
+#endif
+
 using namespace node;
 using namespace v8;
 
@@ -37,7 +45,12 @@ class Exiv2Worker : public Nan::AsyncWorker {
   const long bufLen = -1;
   const std::string fileName = "";
   std::string exifException;
-  Exiv2::Image::UniquePtr image() {
+
+  #if USE_EXIV2_UNIQUE_PTR
+    Exiv2::Image::UniquePtr image() {
+  #else
+    Exiv2::Image::AutoPtr image() {
+  #endif
     return this->isBuf
       ? Exiv2::ImageFactory::open(this->buf, this->bufLen)
       : Exiv2::ImageFactory::open(this->fileName);
@@ -61,7 +74,11 @@ class GetTagsWorker : public Exiv2Worker {
   // structures here.
   void Execute () {
     try {
-      Exiv2::Image::UniquePtr image = this->image();
+      #if USE_EXIV2_UNIQUE_PTR
+        Exiv2::Image::UniquePtr image = this->image();
+      #else
+        Exiv2::Image::AutoPtr image = this->image();
+      #endif
       assert(image.get() != 0);
       image->readMetadata();
 
@@ -157,7 +174,11 @@ class SetTagsWorker : public Exiv2Worker {
   // structures here.
   void Execute () {
     try {
-      Exiv2::Image::UniquePtr image = this->image();
+      #if USE_EXIV2_UNIQUE_PTR
+        Exiv2::Image::UniquePtr image = this->image();
+      #else
+        Exiv2::Image::AutoPtr image = this->image();
+      #endif
       assert(image.get() != 0);
 
       image->readMetadata();
@@ -256,7 +277,11 @@ class DeleteTagsWorker : public Exiv2Worker {
   // structures here.
   void Execute () {
     try {
-      Exiv2::Image::UniquePtr image = this->image();
+      #if USE_EXIV2_UNIQUE_PTR
+        Exiv2::Image::UniquePtr image = this->image();
+      #else
+        Exiv2::Image::AutoPtr image = this->image();
+      #endif
       assert(image.get() != 0);
 
       image->readMetadata();
@@ -354,7 +379,11 @@ class GetPreviewsWorker : public Exiv2Worker {
   // structures here.
   void Execute () {
     try {
-      Exiv2::Image::UniquePtr image = this->image();
+      #if USE_EXIV2_UNIQUE_PTR
+        Exiv2::Image::UniquePtr image = this->image();
+      #else
+        Exiv2::Image::AutoPtr image = this->image();
+      #endif
       assert(image.get() != 0);
       image->readMetadata();
 
