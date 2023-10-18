@@ -1,3 +1,7 @@
+## 0.7.1 (2023-10-18)
+
+* Upgrade `nan` dependency to v2.18.0
+
 ## 0.7.0 (2023-10-17)
 
 * Make compatible with Exiv2 v0.28.0

@@ -1,7 +1,7 @@
 {
   "name": "@11ways/exiv2",
   "description": "A native c++ extension for node.js that provides support for reading & writing image metadata via Exiv2.",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "homepage": "https://github.com/11ways/exiv2node",
   "author": {
     "name": "Jelle De Loecker",
@@ -13,7 +13,7 @@
     "url": "git://github.com/11ways/exiv2node.git"
   },
   "dependencies": {
-    "nan": "~2.14.0"
+    "nan": "~2.18.0"
   },
   "devDependencies": {
     "mocha": "*",
